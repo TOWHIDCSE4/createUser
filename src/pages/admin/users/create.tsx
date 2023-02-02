@@ -15,14 +15,14 @@ const Create = () => {
   const [form] = Form.useForm();
   //submit form
   const onFinish = async (values: any): Promise<void> => {
-    setLoading(true)
+    setLoading(true);
     let { rePassword, ...otherValues } = values;
     let [error, result]: any[] = await to(userService().withAuth().create(otherValues));
-    setLoading(false)
-    if (error) return notify(t(`errors:${error.code}`), '', 'error')
-    notify(t("messages:message.recordUserCreated"))
-    redirect("frontend.admin.users.index")
-    return result
+    setLoading(false);
+    if (error) return notify(t(`errors:${error.code}`), '', 'error');
+    notify(t("messages:message.recordUserCreated"));
+    redirect("frontend.admin.users.index");
+    return result;
   }
 
   const randompass = () => {
@@ -46,8 +46,6 @@ const Create = () => {
           password: randompass(),
           email: "",
           groupId: undefined,
-          firstName: "",
-          lastName: "",
           tags: []
         }}
         onFinish={onFinish}

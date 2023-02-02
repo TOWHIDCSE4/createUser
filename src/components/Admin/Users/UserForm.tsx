@@ -107,7 +107,7 @@ const UserForm = ({ form, isEdit,isTenant = false }: { form: any; isEdit: boolea
           </Col> */}
         </>
       ) : null}
-      <Col md={12}>
+      {/* <Col md={12}>
         <Form.Item
           label={t("pages:users.form.lastName")}
           name="lastName"
@@ -119,9 +119,9 @@ const UserForm = ({ form, isEdit,isTenant = false }: { form: any; isEdit: boolea
         >
           <Input placeholder={t("pages:users.form.lastName")} />
         </Form.Item>
-      </Col>
+      </Col> */}
 
-      <Col md={12}>
+      {/* <Col md={12}>
         <Form.Item
           label={t("pages:users.form.firstName")}
           name="firstName"
@@ -133,7 +133,7 @@ const UserForm = ({ form, isEdit,isTenant = false }: { form: any; isEdit: boolea
         >
           <Input placeholder={t("pages:users.form.firstName")} />
         </Form.Item>
-      </Col>
+      </Col> */}
 
       <Col md={24}>
         <Form.Item
