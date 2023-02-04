@@ -3,7 +3,10 @@ import RoleModel from "./RoleModel";
 const bcrypt = require("bcrypt");
 const authConfig = require("@config/auth");
 
-class UserModel extends BaseModel {
+class UserTempModel extends BaseModel {
+	static getTenantId(id: any) {
+		throw new Error("Method not implemented.");
+	}
 	static tableName = "user_temps";
 
 	//fields
@@ -41,11 +44,11 @@ class UserModel extends BaseModel {
 	}
 
 	async changePassword(newPassword) {
-		newPassword = await UserModel.hash(newPassword);
+		newPassword = await UserTempModel.hash(newPassword);
 		return await this.$query().patchAndFetchById(this.id, {
 			password: newPassword,
 		});
 	}
 }
 
-export default UserModel;
+export default UserTempModel;

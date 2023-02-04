@@ -47,71 +47,98 @@ Route.group(() => {
   // ---------------------------------- End Route Document Routes -----------------------------------//
 
   Route.group(() => {
-    Route.post("/changePassword", "AuthController.changePassword").name("auth.changePassword")
-    Route.post("/logout", "AuthController.logout").name('auth.logout')
-    Route.post("/auth/getPermissionBot", "AuthController.getPermissionBot").name('auth.getPermissionBot')
-    Route.post("/refreshToken", "AuthController.refreshToken").name('auth.refreshToken')
-    Route.post("/auth/getRoleBotUser", "AuthController.getRoleBotUser").name('auth.getRoleBotUser')
-    Route.post("/AuthTwofa", "AuthController.AuthTwofa").name('auth.AuthTwofa')
-    Route.post("/changeState2FA", "AuthController.changeState2FA").name('auth.changeState2FA')
-    
-    // ---------------------------------- User Routes ---------------------------------------//
-    Route.resource("/users", "UserController").name('users').middleware([
-      permissionResource(['users'])
-    ]) // CRUD
-    Route.get("/users/generateOTP", "UserController.generateOTP").name('users.generateOTP').middleware([
-      permission({ 'users': 'R' })
-    ])
-    Route.post("/users/submitOTP", "UserController.submitOTP").name('users.submitOTP')
-    Route.get("/users/getInfo", "UserController.getInfo").name('users.getInfo').middleware([
-      permission({ 'users': 'R' })
-    ])
-    // ---------------------------------- End User Routes -----------------------------------//
+		Route.post("/changePassword", "AuthController.changePassword").name(
+			"auth.changePassword"
+		);
+		Route.post("/logout", "AuthController.logout").name("auth.logout");
+		Route.post(
+			"/auth/getPermissionBot",
+			"AuthController.getPermissionBot"
+		).name("auth.getPermissionBot");
+		Route.post("/refreshToken", "AuthController.refreshToken").name(
+			"auth.refreshToken"
+		);
+		Route.post(
+			"/auth/getRoleBotUser",
+			"AuthController.getRoleBotUser"
+		).name("auth.getRoleBotUser");
+		Route.post("/AuthTwofa", "AuthController.AuthTwofa").name(
+			"auth.AuthTwofa"
+		);
+		Route.post("/changeState2FA", "AuthController.changeState2FA").name(
+			"auth.changeState2FA"
+		);
 
-    // ---------------------------------- Role Permission Routes ---------------------------------------//
-    Route.get("/rolePermissions/getPermissionByTenantId", "RolePermissionController.getPermissionByTenantId")
-    .name('rolePermissions.getPermissionByTenantId').middleware([
-      permission({ 'roles': 'R' })
-    ])
-  
-    Route.get("/rolePermissions/getPermissionByGroupId", "RolePermissionController.getPermissionByGroupId")
-    .name('rolePermissions.getPermissionByGroupId').middleware([
-      permission({ 'roles': 'R' })
-    ])
-    // ---------------------------------- End Role Permission Routes -----------------------------------//
+		// ---------------------------------- User Routes ---------------------------------------//
+		Route.resource("/users", "UserController")
+			.name("users")
+			.middleware([permissionResource(["users"])]); // CRUD
+		Route.get("/users/generateOTP", "UserController.generateOTP")
+			.name("users.generateOTP")
+			.middleware([permission({ users: "R" })]);
+		Route.post("/users/submitOTP", "UserController.submitOTP").name(
+			"users.submitOTP"
+		);
+		Route.get("/users/getInfo", "UserController.getInfo")
+			.name("users.getInfo")
+			.middleware([permission({ users: "R" })]);
+		// ---------------------------------- End User Routes -----------------------------------//
 
-    // ---------------------------------- Role Group Permission Routes ---------------------------------//
-    Route.put("/rolePermissions/update", "RolePermissionController.update").name('rolePermissions.update').middleware([
-      permission({ 'adminDecentralization': 'U' })
-    ])
-    // ---------------------------------- End Role Group Permission Routes -----------------------------//
+		// ---------------------------------- User Temp Routes -----------------------------------//
+		Route.resource("/userTemps", "UserTempController")
+			.name("userTemps")
+			.middleware([permissionResource(["users"])]); // CRUD
 
-    // ---------------------------------- Role Group Routes ---------------------------------------//
-    Route.resource("/roles", "RoleController").name('roles').middleware([
-      permissionResource(['roles'])
-    ])
-    Route.get("/roles/select2", "RoleController.select2").name('roles.select2').middleware([
-      permission({ 'roles': 'R' })
-    ])
-    // Route.get("/roles/selectParent", "RoleController.selectParent").name('roles.selectParent')
-    // ---------------------------------- End Role Group Routes -----------------------------------//
+		// ---------------------------------- End User Routes -----------------------------------//
 
-    // ---------------------------------- Setting Routes ---------------------------------------//
+		// ---------------------------------- Role Permission Routes ---------------------------------------//
+		Route.get(
+			"/rolePermissions/getPermissionByTenantId",
+			"RolePermissionController.getPermissionByTenantId"
+		)
+			.name("rolePermissions.getPermissionByTenantId")
+			.middleware([permission({ roles: "R" })]);
 
-    Route.resource("/settings", "SettingController").name('settings')
+		Route.get(
+			"/rolePermissions/getPermissionByGroupId",
+			"RolePermissionController.getPermissionByGroupId"
+		)
+			.name("rolePermissions.getPermissionByGroupId")
+			.middleware([permission({ roles: "R" })]);
+		// ---------------------------------- End Role Permission Routes -----------------------------------//
 
-    // ---------------------------------- tenants Routes ---------------------------------------//
+		// ---------------------------------- Role Group Permission Routes ---------------------------------//
+		Route.put("/rolePermissions/update", "RolePermissionController.update")
+			.name("rolePermissions.update")
+			.middleware([permission({ adminDecentralization: "U" })]);
+		// ---------------------------------- End Role Group Permission Routes -----------------------------//
 
-    Route.post("/tenants/active", "TenantController.activeTenants").name('tenants.activeTenants').middleware([
-      permission({ 'tenants': 'A' })
-    ])
-    Route.resource("/tenants", "TenantController").name('tenants').middleware([
-      permissionResource(['tenants'])
-    ])
+		// ---------------------------------- Role Group Routes ---------------------------------------//
+		Route.resource("/roles", "RoleController")
+			.name("roles")
+			.middleware([permissionResource(["roles"])]);
+		Route.get("/roles/select2", "RoleController.select2")
+			.name("roles.select2")
+			.middleware([permission({ roles: "R" })]);
+		// Route.get("/roles/selectParent", "RoleController.selectParent").name('roles.selectParent')
+		// ---------------------------------- End Role Group Routes -----------------------------------//
 
-    // ---------------------------------- End tenants Routes -----------------------------------//
+		// ---------------------------------- Setting Routes ---------------------------------------//
 
-    // ---------------------------------- End Routes -----------------------------------//
+		Route.resource("/settings", "SettingController").name("settings");
+
+		// ---------------------------------- tenants Routes ---------------------------------------//
+
+		Route.post("/tenants/active", "TenantController.activeTenants")
+			.name("tenants.activeTenants")
+			.middleware([permission({ tenants: "A" })]);
+		Route.resource("/tenants", "TenantController")
+			.name("tenants")
+			.middleware([permissionResource(["tenants"])]);
+
+		// ---------------------------------- End tenants Routes -----------------------------------//
+
+		// ---------------------------------- End Routes -----------------------------------//
   }).middleware([AuthApiMiddleware])
 }).middleware([ExtendMiddleware]).name('api').prefix("/api/v1")
 

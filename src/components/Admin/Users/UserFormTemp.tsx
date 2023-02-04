@@ -11,7 +11,7 @@ const { Option } = Select;
 import auth from "@src/helpers/auth";
 import _ from "lodash";
 
-const UserForm = ({
+const UserFormTemp = ({
 	form,
 	isEdit,
 	isTenant = false,
@@ -141,7 +141,7 @@ const UserForm = ({
           </Col> */}
 				</>
 			) : null}
-			<Col md={12}>
+			{/* <Col md={12}>
 				<Form.Item
 					label={t("pages:users.form.lastName")}
 					name="lastName"
@@ -169,9 +169,9 @@ const UserForm = ({
 				>
 					<Input placeholder={t("pages:users.form.lastName")} />
 				</Form.Item>
-			</Col>
+			</Col> */}
 
-			<Col md={12}>
+			{/* <Col md={12}>
 				<Form.Item
 					label={t("pages:users.form.firstName")}
 					name="firstName"
@@ -199,7 +199,7 @@ const UserForm = ({
 				>
 					<Input placeholder={t("pages:users.form.firstName")} />
 				</Form.Item>
-			</Col>
+			</Col> */}
 
 			<Col md={24}>
 				<Form.Item
@@ -293,4 +293,4 @@ const UserForm = ({
 	);
 };
 
-export default UserForm;
+export default UserFormTemp;

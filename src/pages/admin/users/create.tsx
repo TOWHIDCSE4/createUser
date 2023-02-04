@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import dynamic from 'next/dynamic';
 import { Button, Form, Col, Row } from 'antd';
-import userService from '@root/src/services/userService';
+import userTempsService from "@root/src/services/userTempService";
 import to from 'await-to-js'
 import useBaseHook from '@src/hooks/BaseHook'
 import { LeftCircleFilled, SaveFilled } from '@ant-design/icons';
-import UserForm from '@src/components/Admin/Users/UserForm';
+import UserFormTemp from "@src/components/Admin/Users/UserFormTemp";
 
 const Layout = dynamic(() => import('@src/layouts/Admin'), { ssr: false })
 
@@ -15,9 +15,12 @@ const Create = () => {
   const [form] = Form.useForm();
   //submit form
   const onFinish = async (values: any): Promise<void> => {
+    console.log("🚀 ~ file: create.tsx:18 ~ onFinish ~ values", values)
     setLoading(true);
     let { rePassword, ...otherValues } = values;
-    let [error, result]: any[] = await to(userService().withAuth().create(otherValues));
+    let [error, result]: any[] = await to(
+		userTempsService().withAuth().create(otherValues)
+	);
     setLoading(false);
     if (error) return notify(t(`errors:${error.code}`), '', 'error');
     notify(t("messages:message.recordUserCreated"));
@@ -35,38 +38,51 @@ const Create = () => {
     return result;
   }
 
-  return <>
-    <div className="content">
-      <Form
-        form={form}
-        name="createAdmin"
-        layout="vertical"
-        initialValues={{
-          username: "",
-          password: randompass(),
-          email: "",
-          groupId: undefined,
-          tags: []
-        }}
-        onFinish={onFinish}
-        scrollToFirstError
-      >
-        <Row>
-          <Col md={{span: 16, offset: 4}}>
-            <UserForm form={form} isEdit={false} />
-            <Form.Item wrapperCol={{ span: 24 }} className="text-center">
-              <Button onClick={() => router.back()} className="btn-margin-right">
-                <LeftCircleFilled /> {t('buttons:back')}
-              </Button>
-              <Button type="primary" htmlType="submit" loading={loading} className="btn-margin-right">
-                <SaveFilled /> {t('buttons:submit')}
-              </Button>
-            </Form.Item>
-          </Col>
-        </Row>
-      </Form>
-    </div>
-  </>
+  return (
+		<>
+			<div className="content">
+				<Form
+					form={form}
+					name="createAdmin"
+					layout="vertical"
+					initialValues={{
+						username: "",
+						password: randompass(),
+						email: "",
+						groupId: undefined,
+						tags: [],
+					}}
+					onFinish={onFinish}
+					scrollToFirstError
+				>
+					<Row>
+						<Col md={{ span: 16, offset: 4 }}>
+							<UserFormTemp form={form} isEdit={false} />
+							<Form.Item
+								wrapperCol={{ span: 24 }}
+								className="text-center"
+							>
+								<Button
+									onClick={() => router.back()}
+									className="btn-margin-right"
+								>
+									<LeftCircleFilled /> {t("buttons:back")}
+								</Button>
+								<Button
+									type="primary"
+									htmlType="submit"
+									loading={loading}
+									className="btn-margin-right"
+								>
+									<SaveFilled /> {t("buttons:submit")}
+								</Button>
+							</Form.Item>
+						</Col>
+					</Row>
+				</Form>
+			</div>
+		</>
+  );
 }
 
 Create.Layout = (props) => {
