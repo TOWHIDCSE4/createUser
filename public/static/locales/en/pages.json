@@ -148,7 +148,9 @@
       "enterCode": "Enter Code",
       "role": "Role",
       "twofa":"2FA",
-      "tenant": "Tenant"
+      "tenant": "Tenant",
+      "phone": "Phone",
+      "date_of_birth": "Date Of Birth"
     }
   },
 

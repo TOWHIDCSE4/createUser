@@ -8,7 +8,7 @@ const speakeasy = require("speakeasy");
 import Logger from "@core/Logger";
 import redis from "../Services/Redis";
 import Auth from "@root/server/libs/Auth";
-const logger = Logger("User");
+const logger = Logger("UserTemp");
 import authConfig from "@config/auth";
 import MailService from "@root/server/app/Services/Mail";
 
@@ -141,7 +141,7 @@ export default class AdminController extends BaseController {
 			userTempLink: this.makeUserTempLink(result),
 			email: result.email,
 		};
-		console.log("🚀 ~ file: UserTempController.ts:144 ~ AdminController ~ store ~ variables", variables)
+
 		let subject = "KDDI — Create new user information";
 		let content = `<div style="width: 100%;
       height: 300px;
@@ -162,7 +162,7 @@ export default class AdminController extends BaseController {
           padding: 5px;
           margin: auto;">
     <h2>Create new user information</h2>
-    <a href="{{variables.userTempLink}}" style="
+    <a href="${variables.userTempLink}" style="
                   text-align: center;
                   text-decoration: none;
                   display:inline-block;
@@ -177,8 +177,8 @@ Thank you for create user . You could be create new user information. Please cli
 <br/>
     Best regards
   </div>
-</div>
-      `;
+</div>`;
+
 		MailService.send(result.email, subject, content, variables);
 
 		return result;

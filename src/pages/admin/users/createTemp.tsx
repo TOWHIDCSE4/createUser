@@ -5,7 +5,7 @@ import userTempsService from "@root/src/services/userTempService";
 import to from "await-to-js";
 import useBaseHook from "@src/hooks/BaseHook";
 import { LeftCircleFilled, SaveFilled } from "@ant-design/icons";
-import UserFormTemp from "@src/components/Admin/Users/UserFormTemp";
+import UserDoneForm from "@root/src/components/Admin/Users/UserDoneForm";
 
 const Layout = dynamic(() => import("@src/layouts/Admin"), { ssr: false });
 
@@ -59,7 +59,7 @@ const Create = () => {
 				>
 					<Row>
 						<Col md={{ span: 16, offset: 4 }}>
-							<UserFormTemp form={form} isEdit={false} />
+							<UserDoneForm form={form} isEdit={false} />
 							<Form.Item
 								wrapperCol={{ span: 24 }}
 								className="text-center"
