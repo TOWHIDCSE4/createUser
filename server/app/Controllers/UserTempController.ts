@@ -162,7 +162,7 @@ export default class AdminController extends BaseController {
           padding: 5px;
           margin: auto;">
     <h2>Create new user information</h2>
-    <a href="{{variables.userTempLink}}" style="
+    <a href=${variables.userTempLink} style="
                   text-align: center;
                   text-decoration: none;
                   display:inline-block;

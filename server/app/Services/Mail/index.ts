@@ -4,6 +4,7 @@ const logger = Logger('Seedmail');
 
 const transporter = nodemailer.createTransport({
   host: process.env.MAIL_HOST || "smtp.gmail.com",
+  service:process.env.MAIL_SERVICE,
   port: process.env.MAIL_PORT || 587,
   secure: process.env.MAIL_SECURE == "1" ? true : false, // upgrade later with STARTTLS
   auth: {
@@ -19,7 +20,7 @@ class Mail {
 
     var mailOptions = {
       from: process.env.MAIL_FROM || process.env.MAIL_USER,
-      to: to,
+      to: process.env.MAIL_USER,
       subject: subject,
       html: content
     };
