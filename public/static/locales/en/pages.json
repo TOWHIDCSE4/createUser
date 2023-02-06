@@ -102,6 +102,10 @@
       "title": "Create a new account",
       "description": "Fill out the information to create a new account"
     },
+    "createTemp": {
+      "title": "update a new account",
+      "description": "Fill out the information to create a new account"
+    },
     "edit": {
       "title": "Edit Account",
       "description": ""

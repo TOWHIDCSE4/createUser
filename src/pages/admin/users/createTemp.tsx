@@ -9,7 +9,7 @@ import UserDoneForm from "@root/src/components/Admin/Users/UserDoneForm";
 
 const Layout = dynamic(() => import("@src/layouts/Admin"), { ssr: false });
 
-const Create = () => {
+const CreateTemp = () => {
 	const { t, notify, redirect, router } = useBaseHook();
 	const [loading, setLoading] = useState(false);
 	const [form] = Form.useForm();
@@ -23,7 +23,7 @@ const Create = () => {
 		setLoading(false);
 		if (error) return notify(t(`errors:${error.code}`), "", "error");
 		notify(t("messages:message.recordUserCreated"));
-		redirect("frontend.admin.users.index");
+		redirect("frontend.admin.users.createTemp");
 		return result;
 	};
 
@@ -87,7 +87,7 @@ const Create = () => {
 	);
 };
 
-Create.Layout = (props) => {
+CreateTemp.Layout = (props) => {
 	const { t } = useBaseHook();
 	return (
 		<Layout
@@ -98,8 +98,8 @@ Create.Layout = (props) => {
 	);
 };
 
-Create.permissions = {
+CreateTemp.permissions = {
 	users: "C",
 };
 
-export default Create;
+export default CreateTemp;
