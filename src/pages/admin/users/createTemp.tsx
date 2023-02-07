@@ -18,7 +18,7 @@ const CreateTemp = () => {
 		setLoading(true);
 		let { rePassword, ...otherValues } = values;
 		let [error, result]: any[] = await to(
-			userTempsService().withAuth().create(otherValues)
+			userTempsService().withAuth().completecreate(otherValues)
 		);
 		setLoading(false);
 		if (error) return notify(t(`errors:${error.code}`), "", "error");

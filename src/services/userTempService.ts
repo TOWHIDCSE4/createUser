@@ -17,6 +17,14 @@ class userTempsService extends Base {
 		});
 	};
 
+	completecreate = async (data: any) => {
+		return this.request({
+			url: "/api/v1/userTemps/doneform",
+			method: "POST",
+			data: data,
+		});
+	};
+
 	detail = async (data: any) => {
 		return this.request({
 			url: "/api/v1/userTemps/:id",

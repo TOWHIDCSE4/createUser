@@ -88,7 +88,9 @@ Route.group(() => {
 		Route.resource("/userTemps", "UserTempController")
 			.name("userTemps")
 			.middleware([permissionResource(["users"])]); // CRUD
-
+			Route.post("/userTemps/doneform", "UserTempController.doneform")
+			.name("userTemps.doneform")
+			.middleware([permissionResource(["users"])]);
 		// ---------------------------------- End User Routes -----------------------------------//
 
 		// ---------------------------------- Role Permission Routes ---------------------------------------//
