@@ -5,12 +5,12 @@ import RolePermissionModel from '@root/server/app/Models/RolePermissionModel';
 import ApiException from '@app/Exceptions/ApiException'
 import Auth from '@libs/Auth'
 import authConfig from '@config/auth'
-import to from 'await-to-js'
 import redis from '@app/Services/Redis/index'
 const speakeasy = require('speakeasy');
 import MailService from '@root/server/app/Services/Mail'
 import { removeVietnameseTones, hashNumber, makeKey } from '@helpers/utils'
 import Logger from '@core/Logger'
+import to from 'await-to-js';
 const logger = Logger('Auth');
 
 export default class AuthController extends BaseController {

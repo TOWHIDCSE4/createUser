@@ -1,52 +1,63 @@
-import Route from '@core/Routes'
+import Route from "@core/Routes";
 const ExtendMiddleware = require("@app/Middlewares/ExtendMiddleware");
-const AuthApiMiddleware = require('@app/Middlewares/AuthApiMiddleware');
-const multer = require('multer')
-import  PermissionMiddleware  from "@app/Middlewares/PermissionMiddleware"
+const AuthApiMiddleware = require("@app/Middlewares/AuthApiMiddleware");
+const multer = require("multer");
+import PermissionMiddleware from "@app/Middlewares/PermissionMiddleware";
 import { v4 as uuidv4 } from "uuid";
-const fs = require('fs')
-const path = require('path')
-const express = require('express')
-const app = express()
-const { permission, permissionResource, permissionMethod } = PermissionMiddleware
+const fs = require("fs");
+const path = require("path");
+const express = require("express");
+const app = express();
+const { permission, permissionResource, permissionMethod } =
+	PermissionMiddleware;
 
 const storage = multer.diskStorage({
-  destination: function (req,file,cb) {
-    cb(null, path.join(__dirname,'/public/uploads'))
-  },
-  filename: function(req,file,cb) {
-    cb(null,file.fieldname+"-"+Date.now()+path.extname(file.originalname))
-  }
-})
-const upload = multer({storage:storage})
-const fileUpload = upload.fields([{name:'image-file', maxCount: 1}])
-
+	destination: function (req, file, cb) {
+		cb(null, path.join(__dirname, "/public/uploads"));
+	},
+	filename: function (req, file, cb) {
+		cb(
+			null,
+			file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+		);
+	},
+});
+const upload = multer({ storage: storage });
+const fileUpload = upload.fields([{ name: "image-file", maxCount: 1 }]);
 
 Route.group(() => {
-  // ---------------------------------- Auth Routes ---------------------------------------//
-  Route.post("/login", "AuthController.login").name('auth.login')
-  Route.post("/forgotPassword", "AuthController.forgotPassword").name('auth.forgotPassword')
-  Route.get("/checkToken/:token", "AuthController.checkToken").name('auth.checkToken')
-  Route.post("/resetPassword", "AuthController.resetPassword").name('auth.resetPassword')
+	// ---------------------------------- Auth Routes ---------------------------------------//
+	Route.post("/login", "AuthController.login").name("auth.login");
+	Route.post("/forgotPassword", "AuthController.forgotPassword").name(
+		"auth.forgotPassword"
+	);
+	Route.get("/checkToken/:token", "AuthController.checkToken").name(
+		"auth.checkToken"
+	);
+	Route.post("/resetPassword", "AuthController.resetPassword").name(
+		"auth.resetPassword"
+	);
 
-  // ---------------------------------- End Auth Routes -----------------------------------//
+	// ---------------------------------- End Auth Routes -----------------------------------//
 
-  // ---------------------------------- Route Routes ---------------------------------------//
-  Route.get("/routes", "RouteController.index").name('routes.index')
-  // ---------------------------------- End Route Routes -----------------------------------//
+	// ---------------------------------- Route Routes ---------------------------------------//
+	Route.get("/routes", "RouteController.index").name("routes.index");
+	// ---------------------------------- End Route Routes -----------------------------------//
 
-  // ---------------------------------- Route Document Routes ---------------------------------------//
-  Route.resource("/documents", "DocumentController").name('documents')
-  // ---------------------------------- End Route Document Routes -----------------------------------//
+	// ---------------------------------- Route Document Routes ---------------------------------------//
+	Route.resource("/documents", "DocumentController").name("documents");
+	// ---------------------------------- End Route Document Routes -----------------------------------//
 
-  // ---------------------------------- Route DocumentTemplate Routes ---------------------------------------//
-  Route.resource("/document_templates", "DocumentTemplateController").name('document_templates')
-  // Route.group(() => {
+	// ---------------------------------- Route DocumentTemplate Routes ---------------------------------------//
+	Route.resource("/document_templates", "DocumentTemplateController").name(
+		"document_templates"
+	);
+	// Route.group(() => {
 
-  // })
-  // ---------------------------------- End Route Document Routes -----------------------------------//
+	// })
+	// ---------------------------------- End Route Document Routes -----------------------------------//
 
-  Route.group(() => {
+	Route.group(() => {
 		Route.post("/changePassword", "AuthController.changePassword").name(
 			"auth.changePassword"
 		);
@@ -70,9 +81,7 @@ Route.group(() => {
 		);
 
 		// ---------------------------------- User Routes ---------------------------------------//
-		Route.resource("/users", "UserController")
-			.name("users")
-			.middleware([permissionResource(["users"])]); // CRUD
+		Route.resource("/users", "UserController").name("users"); // CRUD
 		Route.get("/users/generateOTP", "UserController.generateOTP")
 			.name("users.generateOTP")
 			.middleware([permission({ users: "R" })]);
@@ -82,12 +91,14 @@ Route.group(() => {
 		Route.get("/users/getInfo", "UserController.getInfo")
 			.name("users.getInfo")
 			.middleware([permission({ users: "R" })]);
+		Route.get(
+			"/api/v1/userCheckToken/:token",
+			"UserController.userCheckToken"
+		).name("users.userCheckToken");
 		// ---------------------------------- End User Routes -----------------------------------//
 
 		// ---------------------------------- User Temp Routes -----------------------------------//
-		Route.resource("/userTemps", "UserTempController")
-			.name("userTemps")
-			.middleware([permissionResource(["users"])]); // CRUD
+		Route.resource("/userTemps", "UserTempController").name("userTemps"); // CRUD
 
 		// ---------------------------------- End User Routes -----------------------------------//
 
@@ -139,6 +150,8 @@ Route.group(() => {
 		// ---------------------------------- End tenants Routes -----------------------------------//
 
 		// ---------------------------------- End Routes -----------------------------------//
-  }).middleware([AuthApiMiddleware])
-}).middleware([ExtendMiddleware]).name('api').prefix("/api/v1")
-
+	}).middleware([AuthApiMiddleware]);
+})
+	.middleware([ExtendMiddleware])
+	.name("api")
+	.prefix("/api/v1");

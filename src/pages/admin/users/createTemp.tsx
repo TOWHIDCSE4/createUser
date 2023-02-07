@@ -1,43 +1,54 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { Button, Form, Col, Row } from "antd";
-import userTempsService from "@root/src/services/userTempService";
-import to from "await-to-js";
 import useBaseHook from "@src/hooks/BaseHook";
 import { LeftCircleFilled, SaveFilled } from "@ant-design/icons";
 import UserDoneForm from "@root/src/components/Admin/Users/UserDoneForm";
+import userService from "@root/src/services/userService";
+import to from "await-to-js";
 
 const Layout = dynamic(() => import("@src/layouts/Admin"), { ssr: false });
 
 const CreateTemp = () => {
 	const { t, notify, redirect, router } = useBaseHook();
 	const [loading, setLoading] = useState(false);
+	const [token, setToken] = useState(null);
 	const [form] = Form.useForm();
-	//submit form
-	const onFinish = async (values: any): Promise<void> => {
-		setLoading(true);
-		let { rePassword, ...otherValues } = values;
-		let [error, result]: any[] = await to(
-			userTempsService().withAuth().create(otherValues)
+	const { query } = router;
+
+	const fetchData = async () => {
+		let [userError, user]: any[] = await to(
+			userService().userCheckToken({ data: query })
 		);
-		setLoading(false);
-		if (error) return notify(t(`errors:${error.code}`), "", "error");
-		notify(t("messages:message.recordUserCreated"));
-		redirect("frontend.admin.users.createTemp");
-		return result;
+		
+		if (userError) {
+			notify(t(`errors:${userError.code}`), "", "error");
+			return redirect("frontend.admin.forgotPassword");
+		}
+
+		console.log("🚀 ~ file: createTemp.tsx:23 ~ fetchData ~ user", user)
+
+		setToken(query.token);
+		return user;
 	};
 
-	const randompass = () => {
-		let result = "";
-		let characters =
-			"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-		let charactersLength = characters.length;
-		for (let i = 0; i < 8; i++) {
-			result += characters.charAt(
-				Math.floor(Math.random() * charactersLength)
-			);
-		}
-		return result;
+	useEffect(() => {
+		fetchData();
+	}, []);
+
+	//submit form
+	const onFinish = async (values: any): Promise<void> => {
+		console.log("🚀 ~ file: createTemp.tsx:18 ~ onFinish ~ values", values);
+		setLoading(true);
+		// let { rePassword, ...otherValues } = values;
+		// let [error, result]: any[] = await to(
+		// 	userTempsService().withAuth().create(otherValues)
+		// );
+		setLoading(false);
+		// if (error) return notify(t(`errors:${error.code}`), "", "error");
+		// notify(t("messages:message.recordUserCreated"));
+		// redirect("frontend.admin.users.createTemp");
+		// return result;
 	};
 
 	return (
@@ -48,11 +59,10 @@ const CreateTemp = () => {
 					name="createAdmin"
 					layout="vertical"
 					initialValues={{
-						username: "",
-						password: randompass(),
-						email: "",
-						groupId: undefined,
-						tags: [],
+						lastName: "",
+						firstName: "",
+						phone: "",
+						date_of_birth: "",
 					}}
 					onFinish={onFinish}
 					scrollToFirstError

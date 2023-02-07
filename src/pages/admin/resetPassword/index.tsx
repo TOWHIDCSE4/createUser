@@ -3,10 +3,10 @@ import Layout from '@src/layouts/Login'
 import { LockOutlined, SendOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Row, Col,Tag } from 'antd'
 import authService from '@src/services/authService'
-import to from 'await-to-js'
 import useBaseHook from '@src/hooks/BaseHook';
 import validatorHook from '@src/hooks/ValidatorHook';
 import getConfig from 'next/config';
+import to from 'await-to-js';
 const { publicRuntimeConfig } = getConfig()
 
 const Index = () => {
